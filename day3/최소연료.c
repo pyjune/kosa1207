@@ -61,6 +61,7 @@ void dij(void)
 			{
 				if((u[i][j]==0) && (minV>d[i][j]))
 				{
+					minV = d[i][j];
 					minI = i; 
 					minJ = j;
 				}
