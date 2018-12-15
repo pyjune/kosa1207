@@ -6,6 +6,10 @@ int u[500][500];
 int d[500][500];
 int N;
 
+int q[1000000];
+int front;
+int rear;
+
 void dij(void);
 
 int main(void) 
@@ -24,9 +28,51 @@ int main(void)
 			}
 		}
 		dij();
+		//find();
 		printf("#%d %d\n", tc, d[N-1][N-1]);
 	}
 	return 0;
+}
+
+void find(void)
+{
+	int di[] = {0, 1, 0, -1};
+	int dj[] = {1, 0, -1, 0}; 
+	front = -1;
+	rear = -1;
+	for(int i = 0; i < N; i++)
+	{
+		for(int j = 0; j < N; j++)
+		{
+			d[i][j] = INF;
+		}
+	}
+	d[0][0] = 0;
+
+	q[++rear] = 0;
+	q[++rear] = 0;
+	while(front != rear)
+	{
+		int i = q[++front];
+		int j = q[++front];
+		for(int k = 0; k < 4; k++) // i, j의 인접칸 비용이 갱신되는지 확인 
+		{
+			int ni = i + di[k];
+			int nj = j + dj[k];
+			if(ni>=0 && ni<N && nj>=0 && nj<N)
+			{
+				int h = ((map[ni][nj]>map[i][j])?(map[ni][nj]-map[i][j]):0);
+				if((d[ni][nj]>(d[i][j] + 1 + h)))
+				{
+					d[ni][nj] = d[i][j] + 1 + h;
+					q[++rear] = ni;
+					q[++rear] = nj;
+				}
+			}
+		}
+		
+	}
+	
 }
 
 void dij(void)
